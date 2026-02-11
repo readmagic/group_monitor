@@ -43,7 +43,7 @@ C:\Users\<用户名>\Documents\xwechat_files
 
 目录名格式为 `wxid_xxxxxx_yyyy`，其中 `wxid_xxxxxx` 就是你的 ACCOUNT。
 
-例如：目录名为 `wxid_629q9owg921w22_files`，则 ACCOUNT 为 `629q9owg921w22`
+例如：目录名为 `wxid_629q9owg921w22_files`，则 ACCOUNT 为 `wxid_629q9owg921w22`
 
 #### TALKER_ID（聊天 ID）
 
