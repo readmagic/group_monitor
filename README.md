@@ -186,7 +186,7 @@ groupMonitor_client/
 
 ### DashScope API
 
-- 官方文档：https://help.aliyun.com/zh/dashscope/
+- 官方文档：https://bailian.console.aliyun.com
 - 模型：qwen3-235b-a22b-instruct-2507
 - 功能：流式文本生成和对话总结
 
