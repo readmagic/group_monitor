@@ -61,14 +61,18 @@ C:\Users\<用户名>\Documents\xwechat_files
 
 1. 克隆项目：
 ```bash
-git clone https://github.com/your-repo/groupMonitor_client.git
-cd groupMonitor_client
+git clone https://github.com/readmagic/group_monitor.git
+cd group_monitor
 ```
 
 2. 安装依赖：
 ```bash
 pip install -r requirements.txt
 ```
+
+主要依赖：
+- `requests` - HTTP 请求
+- `GitPython` - Git 操作
 
 3. 创建配置文件：
 ```bash
