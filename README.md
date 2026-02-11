@@ -126,11 +126,36 @@ python main.py
 3. 生成 Markdown 报告
 4. 同步到 GitHub（如果配置了）
 
+### 定时任务（可选）
+
+如果需要每天自动执行，可以使用以下方式：
+
+#### 方式一：Python 调度器
+
+```bash
+python scheduler.py
+```
+
+程序会每天凌晨 1 点自动执行监控任务。保持命令行窗口运行即可。
+
+#### 方式二：Windows 任务计划程序
+
+1. 打开"任务计划程序"（按 `Win + R`，输入 `taskschd.msc`）
+2. 点击右侧"创建基本任务"
+3. 名称：`微信群监控`，点击"下一步"
+4. 触发器：选择"每天"，开始时间设为 `01:00:00`
+5. 操作：选择"启动程序"
+   - 程序或脚本：`python`
+   - 添加参数：`main.py` 的完整路径，如 `C:\group_monitor\main.py`
+   - 起始于：项目目录，如 `C:\group_monitor`
+6. 完成创建
+
 ## 项目结构
 
 ```
 groupMonitor_client/
 ├── main.py              # 主程序入口
+├── scheduler.py         # 定时任务调度器（可选）
 ├── config.py            # 配置加载模块
 ├── chat_fetcher.py      # 消息获取模块
 ├── summarizers/         # AI 摘要器包
