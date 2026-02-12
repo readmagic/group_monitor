@@ -29,7 +29,8 @@ def run_monitor():
             ["python", str(main_script)],
             capture_output=True,
             text=True,
-            encoding='utf-8'
+            encoding='utf-8',
+            errors='replace'  # 遇到无法解码的字符时用替换字符代替
         )
 
         if result.returncode == 0:
