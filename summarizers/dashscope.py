@@ -24,14 +24,26 @@ class DashScopeSummarizer(BaseSummarizer):
         self.model = model
         self.session = requests.Session()
 
+    SPECIAL_NICKNAME = "ⓘ 该群聊涉黄已被解散"
+    TEMP_NICKNAME = "小黄1"
+
     def summarize(self, messages: List[Dict]) -> Optional[str]:
         """使用 DashScope 大模型流式总结对话"""
         if not messages:
             return None
 
+        # 替换特殊昵称为临时昵称（去除前后空格后对比）
+        processed_messages = []
+        for msg in messages:
+            nickname = msg['groupNickname'].strip()
+            if nickname == self.SPECIAL_NICKNAME:
+                processed_messages.append({**msg, 'groupNickname': self.TEMP_NICKNAME})
+            else:
+                processed_messages.append(msg)
+
         conversation_text = "\n".join([
             f"{msg['groupNickname']}: {msg['content']}"
-            for msg in messages
+            for msg in processed_messages
         ])
 
         url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
@@ -85,7 +97,8 @@ class DashScopeSummarizer(BaseSummarizer):
             summary = "".join(full_content)
             if summary:
                 logger.info("总结完成")
-                return summary
+                # 将临时昵称替换回特殊昵称
+                return summary.replace(self.TEMP_NICKNAME, self.SPECIAL_NICKNAME)
             else:
                 logger.error("DashScope 返回内容为空")
                 return None
