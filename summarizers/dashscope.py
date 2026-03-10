@@ -24,7 +24,6 @@ class DashScopeSummarizer(BaseSummarizer):
         self.model = model
         self.session = requests.Session()
 
-    SPECIAL_NICKNAME = "ⓘ 该群聊涉黄已被解散"
     TEMP_NICKNAME = "小黄1"
 
     def summarize(self, messages: List[Dict]) -> Optional[str]:
@@ -36,7 +35,7 @@ class DashScopeSummarizer(BaseSummarizer):
         processed_messages = []
         for msg in messages:
             nickname = msg['groupNickname'].strip()
-            if nickname == self.SPECIAL_NICKNAME:
+            if "涉黄" in nickname:
                 processed_messages.append({**msg, 'groupNickname': self.TEMP_NICKNAME})
             else:
                 processed_messages.append(msg)
@@ -98,7 +97,7 @@ class DashScopeSummarizer(BaseSummarizer):
             if summary:
                 logger.info("总结完成")
                 # 将临时昵称替换回特殊昵称
-                return summary.replace(self.TEMP_NICKNAME, self.SPECIAL_NICKNAME)
+                return summary.replace(self.TEMP_NICKNAME, "ⓘ 该群聊涉黄已被解散")
             else:
                 logger.error("DashScope 返回内容为空")
                 return None
