@@ -20,6 +20,7 @@
 - 使用阿里云 DashScope 大模型进行对话总结
 - 生成结构化的 Markdown 报告
 - 自动同步报告到 GitHub 仓库
+- 支持微信通知，推送总结内容到微信（需配置 wxWebHook）
 
 ## 前置条件
 
@@ -50,6 +51,17 @@ C:\Users\<用户名>\Documents\xwechat_files
 通过 WeChatDataAnalysis 软件界面获取：
 - 个人聊天：对方的微信 ID
 - 群聊：群 ID，格式为 `数字@chatroom`，例如 `53725032966@chatroom`
+
+### 3. 安装配置 wxWebHook（可选，用于微信通知）
+
+如果需要接收微信通知，需要安装 [wxWebHook](https://github.com/aristorechina/wxWebHook)：
+
+1. 访问 https://github.com/aristorechina/wxWebHook
+2. 按照项目说明安装并运行 wxWebHook
+3. 运行后会获得 Webhook URL 和 Secret，格式如下：
+   - Webhook URL: `http://localhost:18731/hook/xxxxxxxxxx/send`
+   - Webhook Secret: 由 wxWebHook 生成的密钥
+4. 将获取到的 URL 和 Secret 配置到 `.env` 文件中
 
 ## 环境要求
 
@@ -92,6 +104,8 @@ copy .env.example .env
 | OUTPUT_DIR | 报告输出目录 | reports |
 | GITHUB_REPO | GitHub 仓库地址（可选） | https://github.com/user/repo |
 | GITHUB_REPO_DIR | 本地仓库目录（可选） | D:\reports |
+| WECHAT_WEBHOOK_URL | 微信通知 Webhook URL（可选） | http://localhost:18731/hook/xxx/send |
+| WECHAT_WEBHOOK_SECRET | 微信通知 Webhook Secret（可选） | your_webhook_secret |
 
 ### 配置示例
 
@@ -110,6 +124,10 @@ OUTPUT_DIR=reports
 # GitHub 仓库配置（可选）
 GITHUB_REPO=https://github.com/readmagic/shengsheng_group_disscus
 GITHUB_REPO_DIR=D:\shengsheng_group_disscus
+
+# 微信通知配置（可选）
+WECHAT_WEBHOOK_URL=http://localhost:18731/hook/oBUagskGfrPP/send
+WECHAT_WEBHOOK_SECRET=OPnj1GsKk0CENl_D13opp7OLweZrx4ZH
 ```
 
 ## 使用方法
@@ -125,6 +143,7 @@ python main.py
 2. 调用 AI 生成总结
 3. 生成 Markdown 报告
 4. 同步到 GitHub（如果配置了）
+5. 发送微信通知（如果配置了 wxWebHook）
 
 ### 定时任务（可选）
 
@@ -196,6 +215,8 @@ groupMonitor_client/
 2. DashScope API Key 需要有足够的调用额度
 3. 首次运行会自动克隆 GitHub 仓库（如果配置了）
 4. 报告文件名格式：`群聊报告_YYYYMMDD.md`
+5. 微信通知功能需要 wxWebHook 服务运行，并正确配置 Webhook URL 和 Secret
+6. 微信通知会在报告成功上传到 GitHub 后自动发送，包含报告日期和总结内容
 
 ## 作者
 
