@@ -98,8 +98,7 @@ def main():
         if success and config.wechat_webhook_url and config.wechat_webhook_secret:
             notifier = WeChatNotifier(config.wechat_webhook_url, config.wechat_webhook_secret)
             yesterday_date = (datetime.now().date() - timedelta(days=1)).strftime("%Y-%m-%d")
-            github_url = f"{config.github_repo.rstrip('.git')}/blob/main/{report_filename}"
-            notifier.notify_report_uploaded(yesterday_date, github_url)
+            notifier.notify_report_uploaded(yesterday_date, summary)
 
     logger.info("监控任务完成")
 

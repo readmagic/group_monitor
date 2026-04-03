@@ -71,19 +71,19 @@ class WeChatNotifier:
             logger.error(f"发送微信通知时发生错误: {e}")
             return False
 
-    def notify_report_uploaded(self, report_date: str, github_url: Optional[str] = None) -> bool:
+    def notify_report_uploaded(self, report_date: str, summary: Optional[str] = None) -> bool:
         """
         通知报告已上传
 
         Args:
             report_date: 报告日期
-            github_url: GitHub 链接（可选）
+            summary: 总结内容（可选）
 
         Returns:
             是否成功
         """
         message = f"✅ 群聊报告已上传\n日期: {report_date}"
-        if github_url:
-            message += f"\n链接: {github_url}"
+        if summary:
+            message += f"\n\n{summary}"
 
         return self.send_message(message)
