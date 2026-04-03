@@ -71,3 +71,13 @@ class Config:
     def github_repo_dir(self) -> str:
         """获取 GitHub 仓库本地目录"""
         return os.getenv('GITHUB_REPO_DIR')
+
+    @property
+    def wechat_webhook_url(self) -> str:
+        """获取微信 Webhook URL"""
+        return os.getenv('WECHAT_WEBHOOK_URL')
+
+    @property
+    def wechat_webhook_secret(self) -> str:
+        """获取微信 Webhook Secret"""
+        return os.getenv('WECHAT_WEBHOOK_SECRET')
