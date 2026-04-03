@@ -7,5 +7,6 @@
 
 from .base import BaseSyncer
 from .github import GitHubSyncer
+from .wechat import WeChatNotifier
 
-__all__ = ['BaseSyncer', 'GitHubSyncer']
+__all__ = ['BaseSyncer', 'GitHubSyncer', 'WeChatNotifier']

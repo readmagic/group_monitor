@@ -12,7 +12,7 @@ from pathlib import Path
 from config import Config
 from chat_fetcher import ChatFetcher
 from summarizers import DashScopeSummarizer
-from syncers import GitHubSyncer
+from syncers import GitHubSyncer, WeChatNotifier
 
 logging.basicConfig(
     level=logging.INFO,
@@ -93,7 +93,13 @@ def main():
 
     # 5. 提交并推送到 GitHub
     if config.github_repo and syncer:
-        syncer.commit_and_push(report_filename)
+        success = syncer.commit_and_push(report_filename)
+        # 6. 发送微信通知
+        if success and config.wechat_webhook_url and config.wechat_webhook_secret:
+            notifier = WeChatNotifier(config.wechat_webhook_url, config.wechat_webhook_secret)
+            yesterday_date = (datetime.now().date() - timedelta(days=1)).strftime("%Y-%m-%d")
+            github_url = f"{config.github_repo.rstrip('.git')}/blob/main/{report_filename}"
+            notifier.notify_report_uploaded(yesterday_date, github_url)
 
     logger.info("监控任务完成")
 
